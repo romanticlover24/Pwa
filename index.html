@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>document</title>
     
-
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Game">
@@ -122,53 +121,18 @@
         }
         .action-btn:active { background: rgba(190, 18, 60, 0.95); }
 
-        
-        #creditsOverlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 30;
-            overflow: hidden;
-            pointer-events: none;
-            background: transparent;
-        }
-
-        .movie-credits-container {
-            position: absolute;
-            width: 100%;
-            bottom: -100%;
-            left: 0;
-            text-align: center;
-            color: #ffffff;
-            font-family: sans-serif;
-            font-size: 18px;
-            line-height: 2;
-            font-weight: 600;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.8);
-            animation: moveCredits 28s linear forwards;
-        }
-
-        @keyframes moveCredits {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-130vh); }
-        }
-
-        #backCreditsBtn {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            z-index: 40;
-            pointer-events: auto;
-            background: rgba(15, 23, 42, 0.85);
-            color: #fff;
+        .credits-modal {
+            max-width: 85%;
+            max-height: 80vh;
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 25px;
+            border-radius: 16px;
             border: 2px solid #f43f5e;
-            border-radius: 12px;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            color: #fff;
+            text-align: left;
+            line-height: 1.6;
         }
-        #backCreditsBtn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -200,46 +164,18 @@
     <button class="menu-btn" id="forBelovedBtn" style="background: #f43f5e; font-size: 20px;">ДЛЯ ЛЮБИМОЙ ❤️</button>
 </div>
 
-<div id="creditsOverlay" class="hidden">
-    <button id="backCreditsBtn">← Назад</button>
-    <div class="movie-credits-container" id="creditsTextContainer">
-        <div>этот текст персонально</div>
-        <div>для моей любимой</div>
-        <div>как и вся игра)</div>
-        <br>
-        <div>Айгуля я тебя</div>
-        <div>люблю очень сильно</div>
-        <div>и буду делать все</div>
-        <div>чтобы ты была счастлива.</div>
-        <br>
-        <div>иногда тебя не покидают</div>
-        <div>мысли о чём-то плохом,</div>
-        <div>ты думаешь что</div>
-        <div>мешаешь мне но</div>
-        <div>не будь тебя я бы</div>
-        <div>такую игру не написал)</div>
-        <br>
-        <div>да, отчасти это</div>
-        <div>не моих рук дело,</div>
-        <div>но как бы я</div>
-        <div>тоже постарался, как говорится</div>
-        <div>"не спиздил а адаптировал")</div>
-        <br>
-        <div>короче говоря не будь</div>
-        <div>тебя я бы страдал</div>
-        <div>хернёй, спасибо что</div>
-        <div>ты есть у меня</div>
-        <div>и не думай что</div>
-        <div>ты как-то мешаешь,</div>
-        <div>ты лучшая кого</div>
-        <div>я встретил и я</div>
-        <div>сделаю все что могу</div>
-        <div>чтобы ты так не думала.</div>
-        <br>
-        <div>люблю тебя Айгуля,</div>
-        <div>очень сильно люблю)</div>
-        <br><br>
-        <div style="color: #f43f5e; font-size: 24px;">❤️</div>
+<div id="creditsModal" class="overlay hidden" style="z-index: 20;">
+    <div class="credits-modal">
+        <div id="creditsText" style="font-size: 15px; white-space: pre-wrap; font-family: sans-serif;">
+этот текст персонально для моей любимой как и вся игра)
+Айгуля я тебя люблю очень сильно и буду делать все что могу чтобы ты была счастлива. иногда тебя не покидают мысли о чём-то плохом, ты думаешь что мешаешь мне но не будь тебя я бы такую игру не написал)
+да, отчасти это не моих рук дело, но как бы я тоже постарался, как говорится "не спиздил а адаптировал")
+короче говоря не будь тебя я бы страдал хернёй, спасибо что ты есть у меня и не думай что ты как-то мешаешь мне, ты лучшая кого я встречал и я сделаю все что могу чтобы ты так не думала.
+люблю тебя Айгуля, очень сильно люблю)
+        </div>
+        <div style="text-align: center;">
+            <button class="menu-btn" id="closeCreditsBtn">ЗАКРЫТЬ</button>
+        </div>
     </div>
 </div>
 
@@ -314,9 +250,7 @@ const startMenu = document.getElementById('startMenu');
 const pauseMenu = document.getElementById('pauseMenu');
 const gameOverMenu = document.getElementById('gameOverMenu');
 const finalMenu = document.getElementById('finalMenu');
-const creditsOverlay = document.getElementById('creditsOverlay');
-const creditsTextContainer = document.getElementById('creditsTextContainer');
-const backCreditsBtn = document.getElementById('backCreditsBtn');
+const creditsModal = document.getElementById('creditsModal');
 const pauseBtn = document.getElementById('pauseBtn');
 const failReason = document.getElementById('failReason');
 
@@ -324,21 +258,8 @@ document.getElementById('startBtn').addEventListener('click', () => { enableFull
 document.getElementById('resumeBtn').addEventListener('click', togglePause);
 document.getElementById('restartPauseBtn').addEventListener('click', startGame);
 document.getElementById('retryBtn').addEventListener('click', startGame);
-
-document.getElementById('forBelovedBtn').addEventListener('click', () => {
-    finalMenu.classList.add('hidden');
-    creditsOverlay.classList.remove('hidden');
-    
-    creditsTextContainer.style.animation = 'none';
-    creditsTextContainer.offsetHeight; 
-    creditsTextContainer.style.animation = 'moveCredits 28s linear forwards';
-});
-
-backCreditsBtn.addEventListener('click', () => {
-    creditsOverlay.classList.add('hidden');
-    finalMenu.classList.remove('hidden');
-});
-
+document.getElementById('forBelovedBtn').addEventListener('click', () => creditsModal.classList.remove('hidden'));
+document.getElementById('closeCreditsBtn').addEventListener('click', () => creditsModal.classList.add('hidden'));
 pauseBtn.addEventListener('click', togglePause);
 
 function togglePause() {
@@ -396,7 +317,7 @@ function startGame() {
     gameOverMenu.classList.add('hidden');
     pauseMenu.classList.add('hidden');
     finalMenu.classList.add('hidden');
-    creditsOverlay.classList.add('hidden');
+    creditsModal.classList.add('hidden');
     pauseBtn.classList.remove('hidden');
 
     obstacles = [];
@@ -725,16 +646,15 @@ function loop(timestamp) {
 
     draw();
     requestAnimationFrame(loop);
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+    }
 }
 
 requestAnimationFrame(loop);
-
-// PWA service worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
-    });
-}
 </script>
 </body>
 </html>
